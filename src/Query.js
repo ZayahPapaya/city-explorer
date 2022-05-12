@@ -7,7 +7,7 @@ class Query extends React.Component {
       return (
         <Form>
         <Form.Control onChange={this.props.changeHandler} placeholder={"search"} />
-        <Button onClick={this.props.getData}>Search</Button>
+        <Button variant="outline-dark" onClick={this.props.getData}>Search</Button>
         </Form>
       )
     }
