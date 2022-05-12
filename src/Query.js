@@ -1,13 +1,14 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 class Query extends React.Component {
     render() {
       return (
-        <>
-        <input onChange={this.props.changeHandler} placeholder={"search"} />
+        <Form>
+        <Form.Control onChange={this.props.changeHandler} placeholder={"search"} />
         <Button onClick={this.props.getData}>Search</Button>
-        </>
+        </Form>
       )
     }
   }
