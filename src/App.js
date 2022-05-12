@@ -1,6 +1,8 @@
+import Query from './Query';
 import './App.css';
 import React from 'react';
 import axios from 'axios';
+import Display from './Display';
 
 class App extends React.Component {
   constructor(props) {
@@ -16,7 +18,9 @@ class App extends React.Component {
     const response = await axios.get(url);
     console.log("Response:", response.data[0]);
     this.setState({ returnValue: response.data[0] });
-  }
+  };
+
+  changeHandler = (e) => { this.setState({ searchValue: e.target.value }) };
 
   render() {
     return (
@@ -24,10 +28,8 @@ class App extends React.Component {
         <header className="App-header">
           <h1>Welcome to City Explorer</h1>
         </header>
-        <input onChange={(e) => this.setState({ searchValue: e.target.value })} placeholder={"search"} />
-        <button onClick={this.getData}>Search</button>
-        {this.state.returnValue && <h2>City result: {this.state.returnValue.display_name}</h2>}
-        {this.state.returnValue && <p>Coordinates: {this.state.returnValue.lat}, {this.state.returnValue.lon}</p>}
+        <Query changeHandler={this.changeHandler} getData={this.getData} />
+        <Display returnValue={this.state.returnValue} />
       </div>
     );
   }
