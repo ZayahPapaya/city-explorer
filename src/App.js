@@ -24,7 +24,7 @@ class App extends React.Component {
       this.setState({ returnValue: responseLocation.data[0], errorMessage: "" });
       const urlWeather = process.env.REACT_APP_WEATHER;
       const weatherReport = await axios.get(`${urlWeather}/weather?type=${this.state.searchValue}`);
-      this.setState({ weatherReport: weatherReport.data, errorMessage: "" })
+      this.setState({ weatherReport: weatherReport.data.weatherReport.map(day => (`Date: ${day.date} Forecast ${day.description}`)), errorMessage: "" })
     } catch (error) {
       this.handleError(error);
     }
