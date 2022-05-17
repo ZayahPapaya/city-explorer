@@ -7,7 +7,7 @@ class Display extends React.Component {
     return (
       <>
       <ListGroup>
-        {this.props.returnValue && (<><ListGroup.Item>City result: {this.props.returnValue.display_name}</ListGroup.Item> <ListGroup.Item>Coordinates: {this.props.returnValue.lat}, {this.props.returnValue.lon}</ListGroup.Item>, <Image src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_KEY}&center=${this.props.returnValue.lat},${this.props.returnValue.lon}&zoom=10`}/></>)}
+        {this.props.returnValue && (<><ListGroup.Item>City result: {this.props.returnValue.display_name}</ListGroup.Item> <ListGroup.Item>Coordinates: {this.props.returnValue.lat}, {this.props.returnValue.lon}</ListGroup.Item> <Image src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_KEY}&center=${this.props.returnValue.lat},${this.props.returnValue.lon}&zoom=10`}/></>)}
       </ListGroup>
       </>
     )
