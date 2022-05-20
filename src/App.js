@@ -5,6 +5,7 @@ import axios from 'axios';
 import Display from './Display';
 import Error from './Error';
 import Weather from './Weather';
+import Movie from './Movie';
 
 class App extends React.Component {
   constructor(props) {
@@ -14,29 +15,62 @@ class App extends React.Component {
       returnValue: "",
       errorMessage: "",
       weatherReport: "",
+      movieReport: "",
     }
   }
-
+// DONE: This should query locationIQ and then pass the data to localserver, everything else handled in server
   getData = async () => {
     try {
-      const urlLocation = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_KEY}&q=${this.state.searchValue}&format=json`;
-      const responseLocation = await axios.get(urlLocation);
-      this.setState({ returnValue: responseLocation.data[0], errorMessage: "" });
-      const urlWeather = process.env.REACT_APP_WEATHER;
-      const weatherReport = await axios.get(`${urlWeather}/weather?type=${this.state.searchValue}`);
-      this.setState({ weatherReport: weatherReport.data.weatherReport.map(day => (`Date: ${day.date} Forecast ${day.description}`)), errorMessage: "" })
+      const url = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_KEY}&q=${this.state.searchValue}&format=json`;
+      const response = await axios.get(url);
+      this.setState({ returnValue: response.data[0], errorMessage: "" }, this.summons);
     } catch (error) {
       this.handleError(error);
-    }
+    };
   };
+  summons = () => {
+    this.getWeather();
+    this.getMovies();
+    // this.getPhotos();
+  }
+  getWeather = async () => {
+    try {
+      console.log('Trying to get weather');
+      const url = process.env.REACT_APP_SERVER;
+      const response = await axios.get(`${url}/weather?lat=${this.state.returnValue.lat}&lon=${this.state.returnValue.lon}`);
+      this.setState({ weatherReport: response.data.map(value => (<p>{value.datetime}, {value.description}</p>)), errorMessage: ""});
+    } catch (error) {
+      this.handleError(error);
+    };
+  };
+
+  getMovies = async () => {
+    try {
+      console.log('Trying to get movies');
+      const url = process.env.REACT_APP_SERVER;
+      const response = await axios.get(`${url}/movie?search=${this.state.returnValue.display_name}`);
+      this.setState({ movieReport: response.data.map(value => (<p>{value.title}, {value.description}</p>))});
+    } catch (error) {
+      this.handleError(error);
+    };
+  };
+
+  // getPhotos = async () => {
+  //   try {
+  //     const url = process.env.REACT_APP_MOVIE;
+  //     const response = await axios.get(`${url}`)
+  //   } catch (error) {
+  //     this.handleError(error);
+  //   };
+  // };
 
   handleError = (error) => {
     console.error(error);
-    this.setState({ errorMessage: `Yikes: Status code ${error.response.status} ${error.response.data.error}`, returnValue: "" })
-  }
+    this.setState({ errorMessage: `Yikes: Status code ${error.response.status} ${error.response.data.error}`, returnValue: "" });
+  };
 
   changeHandler = (e) => { this.setState({ searchValue: e.target.value }) };
-
+  
   render() {
     return (
       <div className="App">
@@ -47,6 +81,7 @@ class App extends React.Component {
         <Error errorMessage={this.state.errorMessage} />
         <Display returnValue={this.state.returnValue} />
         <Weather weatherReport={this.state.weatherReport} />
+        <Movie movieReport={this.state.movieReport} />
       </div>
     );
   }
