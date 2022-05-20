@@ -4,7 +4,7 @@ import React from 'react';
 class Weather extends React.Component {
     render() {
       return (
-        <p>{this.props.weatherReport}</p>
+        <div>{this.props.weatherReport}</div>
       )
     }
   }
