@@ -40,7 +40,7 @@ class App extends React.Component {
       const response = await axios.get(`${url}/weather?lat=${this.state.returnValue.lat}&lon=${this.state.returnValue.lon}`);
       this.setState({ weatherReport: response.data.map(value => (<p>{value.datetime}, {value.description}</p>)), errorMessage: ""});
     } catch (error) {
-      this.handleError(error);
+      await this.handleError(error);
     };
   };
 
@@ -49,9 +49,9 @@ class App extends React.Component {
       console.log('Trying to get movies');
       const url = process.env.REACT_APP_SERVER;
       const response = await axios.get(`${url}/movie?search=${this.state.returnValue.display_name}`);
-      this.setState({ movieReport: response.data.map(value => (<p>{value.title}, {value.description}</p>))});
+      this.setState({ movieReport: response.data.map(value => (<><p>{value.title}, {value.description}, {value.avgVotes}, {value.totalVotes}, {value.popularity}, {value.release}</p><img src={value.poster} alt={value.title}/></>))});
     } catch (error) {
-      this.handleError(error);
+      await this.handleError(error);
     };
   };
 
@@ -66,7 +66,7 @@ class App extends React.Component {
 
   handleError = (error) => {
     console.error(error);
-    this.setState({ errorMessage: `Yikes: Status code ${error.response.status} ${error.response.data.error}`, returnValue: "" });
+    // this.setState({ errorMessage: `Yikes: Status code ${error.response.status} ${error.response.data.error}`, returnValue: "" });
   };
 
   changeHandler = (e) => { this.setState({ searchValue: e.target.value }) };
