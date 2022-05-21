@@ -38,9 +38,9 @@ class App extends React.Component {
       console.log('Trying to get weather');
       const url = process.env.REACT_APP_SERVER;
       const response = await axios.get(`${url}/weather?lat=${this.state.returnValue.lat}&lon=${this.state.returnValue.lon}`);
-      this.setState({ weatherReport: response.data.map(value => (<p>{value.datetime}, {value.description}</p>)), errorMessage: ""});
+      this.setState({ weatherReport: response.data, errorMessage: ""});
     } catch (error) {
-      await this.handleError(error);
+      this.handleError(error);
     };
   };
 
@@ -51,7 +51,7 @@ class App extends React.Component {
       const response = await axios.get(`${url}/movie?search=${this.state.returnValue.display_name}`);
       this.setState({ movieReport: response.data.map(value => (<><p>{value.title}, {value.description}, {value.avgVotes}, {value.totalVotes}, {value.popularity}, {value.release}</p><img src={value.poster} alt={value.title}/></>))});
     } catch (error) {
-      await this.handleError(error);
+      this.handleError(error);
     };
   };
 
