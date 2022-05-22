@@ -49,7 +49,7 @@ class App extends React.Component {
       console.log('Trying to get movies');
       const url = process.env.REACT_APP_SERVER;
       const response = await axios.get(`${url}/movie?search=${this.state.returnValue.display_name}`);
-      this.setState({ movieReport: response.data.map(value => (<><p>{value.title}, {value.description}, {value.avgVotes}, {value.totalVotes}, {value.popularity}, {value.release}</p><img src={value.poster} alt={value.title}/></>))});
+      this.setState({ movieReport: response.data, errorMessage: ""});
     } catch (error) {
       this.setState({errorMessage: error.response.status + ': ' + error.response.data.error, movieReport: ""})
     };
