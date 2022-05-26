@@ -31,3 +31,6 @@ body{
 form{
   display: inline-block;
 }
+.col {
+  margin-bottom: 25px;
+}

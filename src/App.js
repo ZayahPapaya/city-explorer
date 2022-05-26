@@ -6,6 +6,8 @@ import Display from './Display';
 import Error from './Error';
 import Weather from './Weather';
 import Movie from './Movie';
+import { Container } from 'react-bootstrap';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -68,7 +70,7 @@ class App extends React.Component {
   
   render() {
     return (
-      <div className="App">
+      <Container className="App">
         <header className="App-header">
           <h1>Welcome to City Explorer</h1>
         </header>
@@ -76,8 +78,9 @@ class App extends React.Component {
         <Error errorMessage={this.state.errorMessage} />
         <Display returnValue={this.state.returnValue} />
         <Weather weatherReport={this.state.weatherReport} />
+
         <Movie movieReport={this.state.movieReport} />
-      </div>
+      </Container>
     );
   }
 }
